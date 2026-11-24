@@ -1,16 +1,20 @@
+import io
+import os
 import torch
 import torch.nn as nn
 import torchvision.models as models
 import torchvision.transforms as transforms
 from PIL import Image
-import io
 
 
 class Plant_Disease_Model(nn.Module):
 
     def __init__(self):
         super().__init__()
-        self.network = models.resnet34(pretrained=True)
+        try:
+            self.network = models.resnet34(weights=None)
+        except TypeError:
+            self.network = models.resnet34(pretrained=False)
         num_ftrs = self.network.fc.in_features
         self.network.fc = nn.Linear(num_ftrs, 38)
 
@@ -28,15 +32,30 @@ num_classes = ['Apple___Apple_scab', 'Apple___Black_rot', 'Apple___Cedar_apple_r
 
 
 model = Plant_Disease_Model()
-model.load_state_dict(torch.load(
-    './Models/plantDisease-resnet34.pth', map_location=torch.device('cpu')))
+model_path = os.path.join(os.path.dirname(__file__), 'Models', 'plantDisease-resnet34.pth')
+if not os.path.exists(model_path):
+    model_path = os.path.join(os.path.dirname(__file__), '..', 'Models', 'plantDisease-resnet34.pth')
+
+try:
+    state_dict = torch.load(model_path, map_location=torch.device('cpu'), weights_only=False)
+except TypeError:
+    state_dict = torch.load(model_path, map_location=torch.device('cpu'))
+
+model.load_state_dict(state_dict)
 model.eval()
 
 
-def predict_image(img):
-    img_pil = Image.open(io.BytesIO(img))
+def predict_image(img, return_confidence=False):
+    img_pil = Image.open(io.BytesIO(img)).convert('RGB')
     tensor = transform(img_pil)
     xb = tensor.unsqueeze(0)
-    yb = model(xb)
-    _, preds = torch.max(yb, dim=1)
-    return num_classes[preds[0].item()]
+    with torch.no_grad():
+        yb = model(xb)
+        probs = torch.nn.functional.softmax(yb, dim=1)
+        top_prob, preds = torch.max(probs, dim=1)
+    
+    pred_class = num_classes[preds[0].item()]
+    confidence = round(top_prob[0].item() * 100, 2)
+    if return_confidence:
+        return pred_class, confidence
+    return pred_class

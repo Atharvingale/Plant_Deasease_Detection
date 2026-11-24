@@ -372,3 +372,71 @@ disease_dic = {
         <br/>3. Avoid planting in fields where tomato root debris is present, as the virus can survive long-term in roots.
         <br/>4. Wash hands with soap and water before and during the handling of plants to reduce potential spread between plants."""
 }
+
+import re
+
+
+def parse_disease_info(key):
+    raw_text = disease_dic.get(key, '')
+    crop_match = re.search(r'Crop</b>:\s*([^<\n]+)', raw_text, re.IGNORECASE)
+    crop = crop_match.group(1).strip() if crop_match else key.split('___')[0].replace('_', ' ')
+    disease_match = re.search(r'Disease:\s*([^<\n]+)', raw_text, re.IGNORECASE)
+    disease = disease_match.group(1).strip() if disease_match else key.split('___')[1].replace('_', ' ')
+    is_healthy = 'healthy' in key.lower() or 'no disease' in disease.lower()
+    cause = ''
+    prevention = []
+    
+    if is_healthy:
+        cause = 'Specimen shows prime physiological health. No pathogenic lesions, chlorosis, necrosis, or foliar blights were identified.'
+        prevention = [
+            'Maintain regular watering schedule suited to plant growth stage.',
+            'Regularly inspect leaves (both top and underside) for early signs of pests or discoloration.',
+            'Ensure adequate row spacing to promote air circulation and discourage fungal spores.',
+            'Sanitize pruning tools between plants to prevent incidental pathogen transfer.'
+        ]
+    elif 'Cause of disease:' in raw_text:
+        parts = raw_text.split('How to prevent/cure the disease')
+        cause_part = parts[0].split('Cause of disease:')[-1]
+        cause = re.sub(r'<[^>]+>', ' ', cause_part).strip()
+        cause = re.sub(r'\s+', ' ', cause)
+        if len(parts) > 1:
+            prev_raw = parts[1]
+            raw_bullets = re.split(r'<br\s*/?>\s*\d+\.\s*', prev_raw)
+            for b in raw_bullets:
+                clean_b = re.sub(r'<[^>]+>', ' ', b).strip()
+                clean_b = re.sub(r'\s+', ' ', clean_b)
+                if clean_b and clean_b not in prevention and len(clean_b) > 5:
+                    prevention.append(clean_b)
+    
+    if not prevention and not is_healthy:
+        prevention = [
+            'Isolate affected plants immediately to prevent airborne or contact transmission.',
+            'Prune and safely dispose of infected foliage (do not compost diseased material).',
+            'Consult your local agricultural extension service for targeted organic or approved chemical fungicides/bactericides.'
+        ]
+    
+    return {
+        'key': key,
+        'crop': crop,
+        'disease': disease,
+        'is_healthy': is_healthy,
+        'cause': cause,
+        'prevention': prevention,
+        'raw_html': raw_text
+    }
+
+
+def get_catalog():
+    crops = {}
+    for key in disease_dic.keys():
+        info = parse_disease_info(key)
+        crop_name = info['crop']
+        if crop_name not in crops:
+            crops[crop_name] = []
+        crops[crop_name].append({
+            'key': key,
+            'disease': info['disease'],
+            'is_healthy': info['is_healthy']
+        })
+    return crops
+

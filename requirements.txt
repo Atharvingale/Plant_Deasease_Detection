@@ -1,0 +1,8 @@
+torch
+torchvision
+Flask
+Pillow
+markupsafe
+pandas
+numpy
+waitress

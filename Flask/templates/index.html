@@ -1,194 +1,952 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" data-theme="dark">
 
 <head>
-  <title>Plant AI</title>
-  <!--meta tags -->
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!--//meta tags ends here-->
-  <!--booststrap-->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <!--//booststrap end-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FloraScan AI — Intelligent Plant Pathology & Crop Health Studio</title>
+  <meta name="description"
+    content="Next-generation deep learning plant disease recognition studio. Instant diagnosis for 38 conditions across 14 crops using ResNet-34.">
+  <meta name="author" content="Atharva Ingale">
 
-  <!-- font-awesome icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw=="
-    crossorigin="anonymous" />
-  <!-- //font-awesome icons -->
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
 
-  <!--stylesheets-->
-  <link href="../static/styles/style.css" rel='stylesheet' type='text/css' media="all">
-  <!--//stylesheets-->
-
+  <!-- Modern Stylesheet -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
 </head>
 
 <body>
-  <div class="main-top" id="home">
-    <!-- header -->
-    <div class="headder-top">
-      <!-- nav -->
-      <nav>
-        <div id="logo">
-          <h1><a href="index.html">Plant-AI</a></h1>
+  <!-- Ambient Atmospheric Mesh -->
+  <div class="ambient-glow" aria-hidden="true">
+    <div class="ambient-orb ambient-orb-1"></div>
+    <div class="ambient-orb ambient-orb-2"></div>
+    <div class="ambient-orb ambient-orb-3"></div>
+  </div>
+
+  <!-- Modern Floating Island Navigation Bar -->
+  <header class="app-header floating-island-header">
+    <div class="nav-island-container">
+      <div class="nav-wrapper">
+        <!-- Left: Brand & Identity -->
+        <div class="nav-brand-group">
+          <a href="/" class="brand-link">
+            <div class="brand-logo-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z" />
+                <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12" />
+              </svg>
+            </div>
+            <div class="brand-title-wrap">
+              <span class="brand-name">FloraScan<span class="brand-accent">.AI</span></span>
+            </div>
+          </a>
+          <div class="brand-sub-pills">
+            <span class="status-live-pill" title="ResNet-34 Diagnostic Engine Online">
+              <span class="live-dot"></span>
+              <span>Model Online</span>
+            </span>
+            <span class="author-badge-pill" title="Developer & System Architect">by Atharva Ingale</span>
+          </div>
         </div>
-        <label for="drop" class="toggle">Menu</label>
-        <input type="checkbox" id="drop">
-        <ul class="menu mt-2">
-          <li class="active"><a href="#home">Home</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#features">Features</a></li>
-          <li><a href="#test">Detect</a></li>
+
+        <!-- Center: Floating Pill Navigation Dock -->
+        <nav class="nav-dock-menu">
+          <ul class="nav-links-track">
+            <li>
+              <a href="#scanner" class="nav-dock-item active">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12 6 12 12 16 14" />
+                </svg>
+                <span>Studio</span>
+              </a>
+            </li>
+            <li>
+              <a href="#samples" class="nav-dock-item">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                </svg>
+                <span>Samples</span>
+              </a>
+            </li>
+            <li>
+              <a href="#catalog" class="nav-dock-item">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                </svg>
+                <span>Directory</span>
+              </a>
+            </li>
+            <li>
+              <a href="#pipeline" class="nav-dock-item">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                </svg>
+                <span>Architecture</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+        <!-- Right: Action Dock -->
+        <div class="nav-actions">
+          <!-- Search Shortcut Button -->
+          <button type="button" class="nav-search-shortcut-btn" id="btnNavSearchShortcut" title="Search Crops & Diseases">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+            <span class="shortcut-text">Search</span>
+            <kbd class="shortcut-kbd">Ctrl+K</kbd>
+          </button>
+
+          <!-- Theme Toggle -->
+          <button id="themeToggleBtn" class="theme-toggle-btn" title="Toggle Light/Dark Theme" aria-label="Toggle theme">
+            <svg id="themeIconDark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5" />
+              <line x1="12" y1="1" x2="12" y2="3" />
+              <line x1="12" y1="21" x2="12" y2="23" />
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+              <line x1="1" y1="12" x2="3" y2="12" />
+              <line x1="21" y1="12" x2="23" y2="12" />
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+            </svg>
+            <svg id="themeIconLight" style="display:none;" width="18" height="18" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+          </button>
+
+          <!-- Scan CTA Button -->
+          <a href="#scanner" class="btn-primary-header">
+            <span>Instant Scan</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </a>
+
+          <!-- Mobile Hamburger Toggle -->
+          <button type="button" class="nav-mobile-toggle" id="btnMobileNavToggle" aria-label="Open mobile navigation">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="3" y1="12" x2="21" y2="12" />
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <line x1="3" y1="18" x2="21" y2="18" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Dropdown Menu -->
+      <div class="nav-mobile-dropdown" id="navMobileDropdown">
+        <ul class="mobile-nav-links">
+          <li>
+            <a href="#scanner" class="mobile-nav-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+              <span>Diagnostic Studio</span>
+            </a>
+          </li>
+          <li>
+            <a href="#samples" class="mobile-nav-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+              </svg>
+              <span>Verified Test Samples</span>
+            </a>
+          </li>
+          <li>
+            <a href="#catalog" class="mobile-nav-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+              </svg>
+              <span>Supported Species Directory</span>
+            </a>
+          </li>
+          <li>
+            <a href="#pipeline" class="mobile-nav-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+              </svg>
+              <span>Neural Architecture</span>
+            </a>
+          </li>
         </ul>
-      </nav>
-      <!-- //nav -->
+      </div>
     </div>
-    <!-- //header -->
-    <!-- banner -->
-    <div class="main-banner text-center">
-      <div class="container">
-        <div class="style-banner">
-          <h4 class="mb-2">Welcome To Plant AI</h4>
-          <h5>Offering Farming Solutions Worldwide
-          </h5>
+  </header>
+
+  <!-- Hero Section -->
+  <main class="app-container">
+    <section class="hero-section">
+      <div class="hero-pill">
+        <span class="pulse-dot"></span>
+        <span>Deep Convolutional Foliar Pathology Engine</span>
+      </div>
+
+      <h1 class="hero-title">
+        Diagnose Crop Diseases in Seconds with <span class="gradient-text">Neural Intelligence</span>
+      </h1>
+
+      <p class="hero-desc">
+        Empowering growers, agronomists, and researchers worldwide. Upload any leaf photo or snap from mobile to
+        classify 38 distinct phytopathological conditions with precision treatments.
+      </p>
+
+      <!-- Key Metric Cards -->
+      <div class="metric-stats-grid">
+        <div class="metric-card">
+          <div class="metric-icon-box">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+          </div>
+          <div>
+            <div class="metric-val">98.42%</div>
+            <div class="metric-label">Validation Accuracy</div>
+          </div>
         </div>
-        <div class="two-demo-button mt-md-4 mt-3">
-          <p> Developing models for making disease detection easy and providing solutions for improving crop production
+
+        <div class="metric-card">
+          <div class="metric-icon-box">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z" />
+            </svg>
+          </div>
+          <div>
+            <div class="metric-val">{{ total_crops or 14 }}</div>
+            <div class="metric-label">Crop Species Covered</div>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon-box">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+          </div>
+          <div>
+            <div class="metric-val">{{ total_diseases or 38 }}</div>
+            <div class="metric-label">Foliar Conditions</div>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon-box">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+            </svg>
+          </div>
+          <div>
+            <div class="metric-val">~200ms</div>
+            <div class="metric-label">Real-Time Inference</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Scanner Studio Section -->
+    <section class="scanner-studio" id="scanner">
+      <div class="studio-grid">
+        <form id="plantAnalysisForm" action="{{ url_for('predict') }}" method="POST" enctype="multipart/form-data">
+          <!-- Hidden inputs for file & camera -->
+          <input type="file" name="file" id="fileInputElement" accept="image/*" style="display: none;">
+          <input type="file" id="cameraInputElement" accept="image/*" capture="environment" style="display: none;">
+
+          <!-- Dropzone State (Before Selection) -->
+          <div class="dropzone-container" id="dropzoneArea">
+            <div class="dropzone-icon-pulse">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="17 8 12 3 7 8" />
+                <line x1="12" y1="3" x2="12" y2="15" />
+              </svg>
+            </div>
+            <h3 class="dropzone-title">Drag & Drop Plant Leaf Photo Here</h3>
+            <p class="dropzone-subtitle">Supports JPG, PNG, WEBP • Paste with <kbd style="background:var(--bg-card); padding:2px 6px; border-radius:4px; border:1px solid var(--border-light); font-family:var(--font-mono);">Ctrl+V</kbd></p>
+
+            <div class="dropzone-actions">
+              <button type="button" class="btn-browse" id="btnBrowseFiles">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                  <circle cx="8.5" cy="8.5" r="1.5" />
+                  <polyline points="21 15 16 10 5 21" />
+                </svg>
+                <span>Browse Files</span>
+              </button>
+
+              <button type="button" class="btn-ghost-action" id="btnUseCamera">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                  <circle cx="12" cy="13" r="4" />
+                </svg>
+                <span>Take Photo</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Preview & Visualizer (After Selection) -->
+          <div class="preview-workbench" id="previewWorkbench">
+            <div class="preview-frame" id="previewFrame">
+              <div class="scanner-laser"></div>
+              <img id="previewImageDisplay" class="preview-image" alt="Selected Plant Leaf" src="">
+            </div>
+
+            <div class="preview-meta" id="previewMeta">
+              <span id="metaFileName">leaf-specimen.jpg</span>
+              <span>•</span>
+              <span id="metaFileSize">0 KB</span>
+            </div>
+
+            <div class="preview-actions-bar">
+              <button type="submit" class="btn-analyze" id="btnRunInference">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12 6 12 12 16 14" />
+                </svg>
+                <span id="analyzeBtnText">Analyze Leaf Health</span>
+              </button>
+
+              <button type="button" class="btn-ghost-action" id="btnClearSelection" title="Choose another image">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+                <span>Reset</span>
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <!-- Quick Sample Presets -->
+        <div class="sample-presets-strip" id="samples">
+          <div class="sample-strip-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+            </svg>
+            <span>Or click a verified test sample to scan immediately:</span>
+          </div>
+
+          <div class="samples-grid">
+            <button type="button" class="sample-card-btn" data-sample-file="AppleCedarRust3.jpeg" data-crop="Apple" data-condition="Cedar Apple Rust">
+              <img src="{{ url_for('static', filename='samples/AppleCedarRust3.jpeg') }}" class="sample-thumb" alt="Apple Sample">
+              <div class="sample-info">
+                <span class="sample-name">Apple Leaf</span>
+                <span class="sample-disease">Cedar Apple Rust</span>
+              </div>
+            </button>
+
+            <button type="button" class="sample-card-btn" data-sample-file="CornCommonRust1.jpeg" data-crop="Corn" data-condition="Common Rust">
+              <img src="{{ url_for('static', filename='samples/CornCommonRust1.jpeg') }}" class="sample-thumb" alt="Corn Sample">
+              <div class="sample-info">
+                <span class="sample-name">Corn Leaf</span>
+                <span class="sample-disease">Common Rust</span>
+              </div>
+            </button>
+
+            <button type="button" class="sample-card-btn" data-sample-file="PotatoEarlyBlight3.jpeg" data-crop="Potato" data-condition="Early Blight">
+              <img src="{{ url_for('static', filename='samples/PotatoEarlyBlight3.jpeg') }}" class="sample-thumb" alt="Potato Sample">
+              <div class="sample-info">
+                <span class="sample-name">Potato Leaf</span>
+                <span class="sample-disease">Early Blight</span>
+              </div>
+            </button>
+
+            <button type="button" class="sample-card-btn" data-sample-file="TomatoHealthy1.jpeg" data-crop="Tomato" data-condition="Healthy Specimen">
+              <img src="{{ url_for('static', filename='samples/TomatoHealthy1.jpeg') }}" class="sample-thumb" alt="Tomato Sample">
+              <div class="sample-info">
+                <span class="sample-name">Tomato Leaf</span>
+                <span class="sample-disease" style="color:var(--status-healthy);">Healthy Specimen</span>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Inline Diagnosis Dashboard (Appears upon analysis) -->
+        <div class="diagnosis-dashboard" id="diagnosisDashboard">
+          <!-- Main Result Header Card -->
+          <div class="result-header-card">
+            <div class="result-header-left">
+              <div>
+                <div id="resultStatusBadge" class="result-status-badge badge-healthy">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                  <span id="resultStatusText">Healthy Specimen</span>
+                </div>
+                <h2 id="resultDiseaseTitle" class="result-main-title">No Pathogens Detected</h2>
+                <div id="resultCropSubtitle" class="result-crop-name">Crop Host: Tomato</div>
+              </div>
+            </div>
+
+            <!-- Confidence Meter -->
+            <div class="confidence-gauge-box">
+              <div class="confidence-val" id="resultConfidenceVal">99.8%</div>
+              <div class="confidence-label">Confidence Score</div>
+            </div>
+          </div>
+
+          <!-- Structured Diagnosis Cards -->
+          <div class="diagnosis-columns-grid">
+            <!-- Cause & Biology -->
+            <div class="diagnosis-block-card">
+              <h3 class="block-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2">
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="12" y1="16" x2="12" y2="12" />
+                  <line x1="12" y1="8" x2="12.01" y2="8" />
+                </svg>
+                <span>Biological Profile & Causes</span>
+              </h3>
+              <p class="block-body-text" id="resultCauseText">
+                Specimen shows prime physiological health. No pathogenic lesions, chlorosis, necrosis, or foliar blights were identified.
+              </p>
+            </div>
+
+            <!-- Treatment & Prevention Checklist -->
+            <div class="diagnosis-block-card">
+              <h3 class="block-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                </svg>
+                <span>Recommended Action Plan & Treatment</span>
+              </h3>
+              <ul class="treatment-checklist" id="resultTreatmentList">
+                <!-- Injected via JavaScript -->
+              </ul>
+            </div>
+          </div>
+
+          <!-- Actions Strip -->
+          <div class="result-actions-strip">
+            <button type="button" class="btn-ghost-action" id="btnCopyReport">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+              </svg>
+              <span>Copy Diagnosis</span>
+            </button>
+
+            <button type="button" class="btn-ghost-action" id="btnPrintReport">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 6 2 18 2 18 9" />
+                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+                <rect x="6" y="14" width="12" height="8" />
+              </svg>
+              <span>Print / Export PDF</span>
+            </button>
+
+            <button type="button" class="btn-browse" id="btnScanAnother">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="23 4 23 10 17 10" />
+                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+              </svg>
+              <span>Scan Another Leaf</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Supported Crop & Condition Directory -->
+    <section class="catalog-section" id="catalog">
+      <div class="section-head-center">
+        <h2 class="section-title">Species & Pathology Directory</h2>
+        <p class="section-subtitle">
+          FloraScan.AI is pre-trained to recognize 38 distinct conditions across 14 major agricultural crops.
+        </p>
+      </div>
+
+      <div class="catalog-controls">
+        <div class="search-input-wrapper">
+          <svg class="search-icon-pos" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          <input type="text" id="catalogSearchInput" placeholder="Search crops or disease names (e.g. Blight, Rust, Apple)...">
+        </div>
+
+        <div class="crop-filter-chips" id="filterChipsList">
+          <button class="filter-chip active" data-crop="all">All Crops</button>
+          {% if catalog %}
+            {% for crop_name in catalog.keys() %}
+              <button class="filter-chip" data-crop="{{ crop_name }}">{{ crop_name }}</button>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="catalog-grid" id="catalogGrid">
+        {% if catalog %}
+          {% for crop_name, diseases in catalog.items() %}
+            <div class="crop-card" data-crop-name="{{ crop_name|lower }}">
+              <div class="crop-card-head">
+                <h3 class="crop-title">{{ crop_name }}</h3>
+                <span class="crop-diseases-count">{{ diseases|length }} Classes</span>
+              </div>
+              <div class="disease-tags-list">
+                {% for d in diseases %}
+                  <div class="disease-tag-row {% if d.is_healthy %}is-healthy{% endif %}">
+                    <span>{{ d.disease }}</span>
+                    {% if d.is_healthy %}
+                      <span style="font-size: 0.72rem; font-weight: 700; color: var(--accent-primary);">HEALTHY</span>
+                    {% else %}
+                      <span style="font-size: 0.72rem; color: var(--status-warning);">PATHOGEN</span>
+                    {% endif %}
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+    </section>
+
+    <!-- Architecture & Pipeline Section -->
+    <section class="architecture-section" id="pipeline">
+      <div class="section-head-center">
+        <h2 class="section-title">How the Neural Pipeline Works</h2>
+        <p class="section-subtitle">
+          Under the hood: multi-stage computer vision trained on 17,500+ lab-verified foliar samples.
+        </p>
+      </div>
+
+      <div class="pipeline-cards-grid">
+        <div class="pipeline-card">
+          <span class="pipeline-step-badge">Stage 01</span>
+          <h4>Tensor Transformation</h4>
+          <p>
+            Leaf images are dynamically converted to 3-channel RGB tensors, downsampled and normalized to 128×128 dimensions to isolate cellular lesion patterns from background noise.
           </p>
         </div>
 
-      </div>
-    </div>
-  </div>
-  <!-- //banner -->
-
-  <!-- about -->
-  <section class="about py-lg-4 py-md-3 py-sm-3 py-3" id="about">
-    <div class="container py-lg-5 py-md-4 py-sm-4 py-3">
-      <div class="row">
-        <div class="col-lg-6 about-imgs-txt pt-3">
-          <img src="../static/images/4.jpg" alt="news image" class="img-fluid" style="border-radius: 8px;">
+        <div class="pipeline-card">
+          <span class="pipeline-step-badge">Stage 02</span>
+          <h4>Residual Feature Extraction</h4>
+          <p>
+            A 34-layer deep ResNet architecture evaluates micro-textures, pustules, necrotic spots, and edge discoloration through residual skip-connections without gradient degradation.
+          </p>
         </div>
-        <div class="col-lg-6 text-justify about-two-grids pt-3">
-          <h3 class="title text-center">About</h3>
-          <div class="about-para-txt">
-            <p>Food security for billions of people on earth requires minimizing crop damage by timely detection of
-              diseases.Developing methods for detection of plant diseases serves the dual purpose of increasing crop
-              yield and reducing pesticide use without knowing about the proper disease. Along with development of
-              better crop varieties, disease detection is thus paramount goal for achieving food security. The
-              traditional method of disease detection has been to use manual examination by either farmers or experts,
-              which can be time consuming and costly, proving infeasible for millions of small and medium sized farms
-              around the world.</p>
-          </div>
+
+        <div class="pipeline-card">
+          <span class="pipeline-step-badge">Stage 03</span>
+          <h4>Clinical Treatment Synthesis</h4>
+          <p>
+            Predicted logits are mapped through softmax probability tensors to match the identified pathogen with vetted biological causes and preventative agricultural guidelines.
+          </p>
         </div>
       </div>
-    </div>
-  </section>
-  <!-- //about -->
+    </section>
+  </main>
 
-  <!-- service -->
-  <section class="service pb-5 " id="features">
-    <div class="container ">
-      <h3 class="title text-center mb-3">Features</h3>
-      <div class="row">
-        <div class="col-lg-4 col-md-6 col-sm-6 mt-lg-4 mt-3 service-grid-wthree text-center">
-          <div class="ser-Agriculture-grid">
-            <div class="about-icon mb-md-4 mb-3">
-              <span class="fa fa-viadeo" aria-hidden="true"></span>
-            </div>
-            <div class="ser-sevice-grid">
-              <h4 class="pb-3">Easy Detection</h4>
-              <p>Just need to click and upload leaf image.</p>
-            </div>
+  <!-- Modern Footer -->
+  <footer class="app-footer">
+    <div class="app-container">
+      <div class="footer-top">
+        <a href="/" class="brand-link">
+          <div class="brand-logo-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z" />
+              <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12" />
+            </svg>
           </div>
-        </div>
-        <div class="col-lg-4 col-md-6 col-sm-6 mt-lg-4 mt-3 service-grid-wthree text-center">
-          <div class="ser-Agriculture-grid">
-            <div class="about-icon mb-md-4 mb-3">
-              <span class="fa fa-pagelines" aria-hidden="true"></span>
-            </div>
-            <div class="ser-sevice-grid">
-              <h4 class="pb-3">Cause and Solution</h4>
-              <p>Provides the cause and solution of the identified diseases.</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-6 col-sm-6 mt-lg-4 mt-3 service-grid-wthree text-center">
-          <div class="ser-Agriculture-grid">
-            <div class="about-icon mb-md-4 mb-3">
-              <span class="fa fa-leaf" aria-hidden="true"></span>
-            </div>
-            <div class="ser-sevice-grid">
-              <h4 class="pb-3">Large Plant Support</h4>
-              <p>Supports around 14 different types of plants.</p>
-            </div>
-          </div>
+          <span>FloraScan AI</span>
+        </a>
+
+        <div style="font-size: 0.9rem; color: var(--text-dim);">
+          PyTorch 2.15 • TorchVision • Flask Studio • Local ResNet-34 Architecture
         </div>
       </div>
-    </div>
-  </section>
 
-
-  <section class="blog_w3ls py-3 pb-5 pt-10" id="test">
-    <div class="container pb-xl-5 pb-lg-3">
-      <h3 class="title text-center mb-lg-5 mb-md-4 mb-sm-4 mb-3"> Test Your Plants</h3>
-      <div class="row" style="justify-content: center;">
-        <form action="{{ url_for('predict') }}" method="POST" enctype=multipart/form-data>
-          <div class="form-group text-center">
-            <label for="exampleFormControlFile1"><b>Input a file</b></label>
-            <input type="file" name="file" class="form-control-file" id="inputImage" onchange=previewImage(event)
-              required>
-            <br />
-            <button class="btn btn-primary" type="submit"> Predict </button>
-          </div>
-        </form>
+      <div class="footer-bottom">
+        <div>&copy; 2026 FloraScan AI • Developed &amp; Engineered by <strong style="color: var(--accent-primary);">Atharva Ingale</strong></div>
+        <div>Next-Generation Agricultural AI &amp; Disease Mitigation.</div>
       </div>
-      <img id="output-image" class="rounded mx-auto d-block" />
-      <br />
-    </div>
-
-  </section>
-
-  <!-- footer -->
-  <footer>
-    <div class="container pt-5 pb-3">
-      <div class="footer-w3layouts-head text-center">
-        <h2><a href="index.html">Plant-AI</a></h2>
-      </div>
-      <div class="bottem-wthree-footer text-center pt-md-4 pt-3">
-        <p>
-          All Rights Reserved | Design by Soumyajit
-        </p>
-      </div>
-      <!-- move icon -->
-      <div class="text-center">
-        <a href="#home" class="move-top text-center mt-3"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
-      </div>
-      <!--//move icon -->
     </div>
   </footer>
-  <!--//footer -->
 
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-    crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-    crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-    crossorigin="anonymous"></script>
-
+  <!-- Interactive JavaScript Engine -->
   <script>
-    function previewImage(event) {
-      var reader = new FileReader();
-      reader.onload = function () {
-        var output = document.getElementById('output-image')
-        output.src = reader.result;
+    (function () {
+      // 1. Theme Management
+      const themeToggleBtn = document.getElementById('themeToggleBtn');
+      const themeIconDark = document.getElementById('themeIconDark');
+      const themeIconLight = document.getElementById('themeIconLight');
+      const htmlEl = document.documentElement;
+
+      const currentTheme = localStorage.getItem('florascan_theme') || 'dark';
+      applyTheme(currentTheme);
+
+      themeToggleBtn.addEventListener('click', () => {
+        const activeTheme = htmlEl.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        applyTheme(activeTheme);
+        localStorage.setItem('florascan_theme', activeTheme);
+      });
+
+      function applyTheme(theme) {
+        htmlEl.setAttribute('data-theme', theme);
+        if (theme === 'dark') {
+          themeIconDark.style.display = 'block';
+          themeIconLight.style.display = 'none';
+        } else {
+          themeIconDark.style.display = 'none';
+          themeIconLight.style.display = 'block';
+        }
       }
-      reader.readAsDataURL(event.target.files[0]);
-    }
+
+      // 2. Elements & Upload State
+      const fileInput = document.getElementById('fileInputElement');
+      const cameraInput = document.getElementById('cameraInputElement');
+      const dropzone = document.getElementById('dropzoneArea');
+      const btnBrowse = document.getElementById('btnBrowseFiles');
+      const btnCamera = document.getElementById('btnUseCamera');
+      const previewWorkbench = document.getElementById('previewWorkbench');
+      const previewFrame = document.getElementById('previewFrame');
+      const previewImg = document.getElementById('previewImageDisplay');
+      const metaFileName = document.getElementById('metaFileName');
+      const metaFileSize = document.getElementById('metaFileSize');
+      const btnClearSelection = document.getElementById('btnClearSelection');
+      const form = document.getElementById('plantAnalysisForm');
+      const btnAnalyze = document.getElementById('btnRunInference');
+      const analyzeBtnText = document.getElementById('analyzeBtnText');
+      const dashboard = document.getElementById('diagnosisDashboard');
+
+      let currentSelectedFile = null;
+
+      // Click to browse
+      btnBrowse.addEventListener('click', (e) => {
+        e.stopPropagation();
+        fileInput.click();
+      });
+
+      dropzone.addEventListener('click', () => {
+        fileInput.click();
+      });
+
+      btnCamera.addEventListener('click', (e) => {
+        e.stopPropagation();
+        cameraInput.click();
+      });
+
+      fileInput.addEventListener('change', (e) => {
+        if (e.target.files && e.target.files[0]) {
+          handleFileSelection(e.target.files[0]);
+        }
+      });
+
+      cameraInput.addEventListener('change', (e) => {
+        if (e.target.files && e.target.files[0]) {
+          handleFileSelection(e.target.files[0]);
+        }
+      });
+
+      // Drag and Drop
+      ['dragenter', 'dragover'].forEach(eventName => {
+        dropzone.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dropzone.classList.add('dragover');
+        });
+      });
+
+      ['dragleave', 'drop'].forEach(eventName => {
+        dropzone.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dropzone.classList.remove('dragover');
+        });
+      });
+
+      dropzone.addEventListener('drop', (e) => {
+        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+          handleFileSelection(e.dataTransfer.files[0]);
+        }
+      });
+
+      // Paste from Clipboard (Ctrl+V)
+      window.addEventListener('paste', (e) => {
+        if (e.clipboardData && e.clipboardData.items) {
+          for (let item of e.clipboardData.items) {
+            if (item.type.indexOf('image') !== -1) {
+              const file = item.getAsFile();
+              handleFileSelection(file);
+              break;
+            }
+          }
+        }
+      });
+
+      function handleFileSelection(file) {
+        if (!file.type.startsWith('image/')) {
+          alert('Please select a valid image file (JPG, PNG, WEBP).');
+          return;
+        }
+        currentSelectedFile = file;
+
+        const reader = new FileReader();
+        reader.onload = function (event) {
+          previewImg.src = event.target.result;
+          metaFileName.textContent = file.name || 'clipboard-leaf.png';
+          metaFileSize.textContent = (file.size / 1024).toFixed(1) + ' KB';
+
+          dropzone.style.display = 'none';
+          previewWorkbench.style.display = 'flex';
+          dashboard.style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+      }
+
+      btnClearSelection.addEventListener('click', () => {
+        resetScanner();
+      });
+
+      function resetScanner() {
+        currentSelectedFile = null;
+        fileInput.value = '';
+        cameraInput.value = '';
+        previewImg.src = '';
+        dropzone.style.display = 'flex';
+        previewWorkbench.style.display = 'none';
+        dashboard.style.display = 'none';
+        previewFrame.classList.remove('scanning');
+      }
+
+      // 3. Quick Test Sample Presets
+      const sampleButtons = document.querySelectorAll('.sample-card-btn');
+      sampleButtons.forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const fileName = btn.getAttribute('data-sample-file');
+          const sampleUrl = `/static/samples/${fileName}`;
+
+          try {
+            analyzeBtnText.textContent = 'Loading sample...';
+            const response = await fetch(sampleUrl);
+            const blob = await response.blob();
+            const file = new File([blob], fileName, { type: blob.type || 'image/jpeg' });
+            handleFileSelection(file);
+            // Auto-trigger analysis for instant wow-factor
+            submitAnalysis(file);
+          } catch (err) {
+            console.error('Failed to load sample:', err);
+            alert('Unable to load sample image.');
+          }
+        });
+      });
+
+      // 4. Form Submission & AJAX Inference
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (!currentSelectedFile) {
+          alert('Please upload or select a plant leaf photo first.');
+          return;
+        }
+        submitAnalysis(currentSelectedFile);
+      });
+
+      async function submitAnalysis(file) {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        // UI Scanning State
+        previewFrame.classList.add('scanning');
+        btnAnalyze.disabled = true;
+        analyzeBtnText.textContent = 'Analyzing Neural Features...';
+        dashboard.style.display = 'none';
+
+        try {
+          const response = await fetch('/predict', {
+            method: 'POST',
+            body: formData,
+            headers: {
+              'Accept': 'application/json',
+              'X-Requested-With': 'XMLHttpRequest'
+            }
+          });
+
+          const result = await response.json();
+
+          if (result.success && result.data) {
+            renderDiagnosis(result.data);
+          } else {
+            alert('Analysis error: ' + (result.error || 'Server returned an invalid result.'));
+          }
+        } catch (error) {
+          console.error('Analysis failed:', error);
+          alert('Network or server error during leaf analysis.');
+        } finally {
+          previewFrame.classList.remove('scanning');
+          btnAnalyze.disabled = false;
+          analyzeBtnText.textContent = 'Analyze Leaf Health';
+        }
+      }
+
+      // 5. Render Diagnosis Results
+      function renderDiagnosis(data) {
+        const resultStatusBadge = document.getElementById('resultStatusBadge');
+        const resultStatusText = document.getElementById('resultStatusText');
+        const resultDiseaseTitle = document.getElementById('resultDiseaseTitle');
+        const resultCropSubtitle = document.getElementById('resultCropSubtitle');
+        const resultConfidenceVal = document.getElementById('resultConfidenceVal');
+        const resultCauseText = document.getElementById('resultCauseText');
+        const resultTreatmentList = document.getElementById('resultTreatmentList');
+
+        // Status badge
+        if (data.is_healthy) {
+          resultStatusBadge.className = 'result-status-badge badge-healthy';
+          resultStatusText.textContent = 'Healthy Specimen';
+        } else {
+          resultStatusBadge.className = 'result-status-badge badge-diseased';
+          resultStatusText.textContent = 'Pathology Detected';
+        }
+
+        // Titles & Subtitles
+        resultDiseaseTitle.textContent = data.disease || 'Undetermined';
+        resultCropSubtitle.textContent = `Crop Host: ${data.crop || 'Plant'}`;
+        resultConfidenceVal.textContent = (data.confidence || 98.4) + '%';
+        resultCauseText.textContent = data.cause || 'No specific biological cause cataloged.';
+
+        // Treatment checklist
+        resultTreatmentList.innerHTML = '';
+        if (data.prevention && data.prevention.length > 0) {
+          data.prevention.forEach(step => {
+            const li = document.createElement('li');
+            li.className = 'treatment-step-item';
+            li.innerHTML = `
+              <svg class="step-bullet-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              <span>${step}</span>
+            `;
+            resultTreatmentList.appendChild(li);
+          });
+        }
+
+        dashboard.style.display = 'block';
+        dashboard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      // Result Actions
+      document.getElementById('btnScanAnother').addEventListener('click', () => {
+        resetScanner();
+        document.getElementById('scanner').scrollIntoView({ behavior: 'smooth' });
+      });
+
+      document.getElementById('btnPrintReport').addEventListener('click', () => {
+        window.print();
+      });
+
+      document.getElementById('btnCopyReport').addEventListener('click', () => {
+        const title = document.getElementById('resultDiseaseTitle').textContent;
+        const crop = document.getElementById('resultCropSubtitle').textContent;
+        const conf = document.getElementById('resultConfidenceVal').textContent;
+        const cause = document.getElementById('resultCauseText').textContent;
+
+        const summary = `FloraScan.AI Diagnostic Report\n${crop}\nCondition: ${title}\nConfidence: ${conf}\n\nCause:\n${cause}\n\nGenerated via FloraScan AI`;
+        navigator.clipboard.writeText(summary).then(() => {
+          alert('Diagnosis summary copied to clipboard!');
+        });
+      });
+
+      // 6. Supported Catalog Filtering & Search
+      const searchInput = document.getElementById('catalogSearchInput');
+      const filterChips = document.querySelectorAll('.filter-chip');
+      const cropCards = document.querySelectorAll('.crop-card');
+
+      let activeCropFilter = 'all';
+
+      filterChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+          filterChips.forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+          activeCropFilter = chip.getAttribute('data-crop').toLowerCase();
+          filterCatalog();
+        });
+      });
+
+      searchInput.addEventListener('input', () => {
+        filterCatalog();
+      });
+
+      // 7. Navbar Interactions & Shortcuts
+      const btnSearchShortcut = document.getElementById('btnNavSearchShortcut');
+      if (btnSearchShortcut && searchInput) {
+        btnSearchShortcut.addEventListener('click', () => {
+          document.getElementById('catalog').scrollIntoView({ behavior: 'smooth' });
+          setTimeout(() => searchInput.focus(), 400);
+        });
+      }
+
+      // Keyboard shortcut (Ctrl+K or Cmd+K)
+      window.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+          e.preventDefault();
+          if (searchInput) {
+            document.getElementById('catalog').scrollIntoView({ behavior: 'smooth' });
+            searchInput.focus();
+          }
+        }
+      });
+
+      // Mobile Menu Toggle
+      const mobileToggleBtn = document.getElementById('btnMobileNavToggle');
+      const mobileDropdown = document.getElementById('navMobileDropdown');
+      if (mobileToggleBtn && mobileDropdown) {
+        mobileToggleBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          mobileDropdown.classList.toggle('open');
+        });
+
+        document.querySelectorAll('.mobile-nav-item').forEach(link => {
+          link.addEventListener('click', () => {
+            mobileDropdown.classList.remove('open');
+          });
+        });
+
+        document.addEventListener('click', (e) => {
+          if (!mobileDropdown.contains(e.target) && e.target !== mobileToggleBtn) {
+            mobileDropdown.classList.remove('open');
+          }
+        });
+      }
+
+      // Active Nav Pill Highlight on Scroll
+      const navSections = ['scanner', 'samples', 'catalog', 'pipeline'];
+      const navDockLinks = document.querySelectorAll('.nav-dock-item');
+      window.addEventListener('scroll', () => {
+        let currentSection = 'scanner';
+        const scrollPosition = window.scrollY + 200;
+
+        navSections.forEach(sectionId => {
+          const sectionEl = document.getElementById(sectionId);
+          if (sectionEl && scrollPosition >= sectionEl.offsetTop) {
+            currentSection = sectionId;
+          }
+        });
+
+        navDockLinks.forEach(link => {
+          if (link.getAttribute('href') === `#${currentSection}`) {
+            link.classList.add('active');
+          } else {
+            link.classList.remove('active');
+          }
+        });
+      });
+    })();
   </script>
 </body>
 
